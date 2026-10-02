@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './components/Home';
+import Login from './components/Login';
+import Register from './components/Register';
 import UploadPage from './components/UploadPage';
 import DocumentList from './components/DocumentList';
 
@@ -11,11 +13,15 @@ function App() {
     <Router>
       <div className="App">
         <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/upload" element={<UploadPage />} />
-          <Route path="/documents" element={<DocumentList />} />
-        </Routes>
+        <main className="main-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/upload" element={<UploadPage />} />
+            <Route path="/documents" element={<DocumentList />} />
+          </Routes>
+        </main>
         <Footer />
       </div>
     </Router>

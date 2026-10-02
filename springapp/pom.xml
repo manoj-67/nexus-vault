@@ -20,6 +20,9 @@
     </properties>
 
     <dependencies>
+
+        <!-- Removed springdoc-openapi-starter-webmvc-ui 2.5.0: not compatible with Spring Boot 2.7.x -->
+
         <!-- Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -32,11 +35,7 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <!-- Spring Security -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
+
 
         <!-- Lombok -->
         <dependency>
@@ -51,6 +50,12 @@
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
             <version>2.2.3</version>
+        </dependency>
+        
+        <!-- Validation -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
         <!-- H2 Database -->
@@ -79,6 +84,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.security</groupId>
+                    <artifactId>spring-security-test</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 		
 		<!-- Testing -->

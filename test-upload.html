@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NEXUS VAULT - Upload Test</title>
+    <style>
+        body { font-family: Arial; background: #0a0e27; color: white; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        input, button { padding: 10px; margin: 10px 0; width: 100%; }
+        button { background: #0066ff; color: white; border: none; cursor: pointer; }
+        .result { margin: 20px 0; padding: 10px; background: #1a1f3a; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 NEXUS VAULT - Upload Test</h1>
+        
+        <input type="email" id="email" placeholder="Enter email" value="test@example.com">
+        <input type="file" id="fileInput" accept=".pdf,.doc,.docx,.txt,.jpg,.png">
+        <button onclick="uploadFile()">🔐 ENCRYPT & UPLOAD</button>
+        
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        function encryptData(data) {
+            const key = 'NEXUS_VAULT_KEY';
+            let encrypted = '';
+            for (let i = 0; i < data.length; i++) {
+                encrypted += String.fromCharCode(data.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+            }
+            return btoa(encrypted);
+        }
+
+        async function uploadFile() {
+            const email = document.getElementById('email').value;
+            const fileInput = document.getElementById('fileInput');
+            const result = document.getElementById('result');
+            
+            if (!fileInput.files[0] || !email) {
+                result.innerHTML = '❌ Please select file and enter email';
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            result.innerHTML = '⏳ Encrypting and uploading...';
+            
+            try {
+                const fileReader = new FileReader();
+                fileReader.onload = async () => {
+                    try {
+                        const base64Data = fileReader.result.split(',')[1];
+                        const encryptedData = encryptData(base64Data);
+                        
+                        const response = await fetch('http://localhost:8080/api/upload', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                filename: file.name,
+                                email: email,
+                                fileData: encryptedData
+                            })
+                        });
+                        
+                        const data = await response.json();
+                        
+                        if (response.ok) {
+                            result.innerHTML = `✅ SUCCESS: ${data.message}<br>Document ID: ${data.document.id}`;
+                        } else {
+                            result.innerHTML = `❌ ERROR: ${data.error}`;
+                        }
+                    } catch (error) {
+                        result.innerHTML = `❌ Upload failed: ${error.message}`;
+                    }
+                };
+                
+                fileReader.readAsDataURL(file);
+            } catch (error) {
+                result.innerHTML = `❌ File processing failed: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>

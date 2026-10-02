@@ -1,0 +1,8 @@
+node_modules/
+reactapp/build/
+springapp/target/
+*.log
+.env
+.env.*
+!.env.example
+.vscode/

@@ -6,16 +6,19 @@ import Home from './Home';
 import UploadPage from './UploadPage';
 import DocumentList from './DocumentList';
 
+
 function App() {
   return (
     <Router>
       <div className="App">
         <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/upload" element={<UploadPage />} />
-          <Route path="/documents" element={<DocumentList />} />
-        </Routes>
+        <main className="main-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/upload" element={<UploadPage />} />
+            <Route path="/documents" element={<DocumentList />} />
+          </Routes>
+        </main>
         <Footer />
       </div>
     </Router>

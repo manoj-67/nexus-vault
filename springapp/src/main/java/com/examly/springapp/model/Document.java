@@ -5,14 +5,19 @@ import javax.persistence.*;
 @Entity
 @Table(name = "documents")
 public class Document {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @Column(nullable = false)
     private String filename;
+    
+    @Column(nullable = false)
     private String email;
     
     @Lob
+    @Column(columnDefinition = "LONGBLOB")
     private byte[] fileData;
     
     public Document() {}
